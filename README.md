@@ -2,7 +2,7 @@
 
 DOI: *Insert here*
 
-[![License: GNU General Public License v3.0](https://img.shields.io/badge/License-GNU General Public License v3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)  
+[![License: GNU General Public License v3.0](https://img.shields.io/badge/License-GNU%20General%20Public%20License%20v3.0-blue)](https://www.gnu.org/licenses/gpl-3.0.en.html)  
 <font size="1">(Note: *ABAnnotate* inherited its license from its [source toolbox](https://github.com/benfulcher/GeneCategoryEnrichmentAnalysis). Included datasets, especially data from the Allen Institute for Brain Science, are licensed under non-commercial licenses which is to be considered when using *ABAnnotate*'s integrated datasets.)</font>
 
 ---
