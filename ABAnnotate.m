@@ -59,7 +59,7 @@ switch atlas_type
         atlas_dir = fullfile(wd, 'atlas', atlas);
         if ~exist(atlas_dir, 'dir')
             % download zipped atlas dir from OSF
-            disp('Atlas not found. Downloading...');
+            fprintf('Atlas %s not found. Downloading...', atlas);
             atlas_list = abannotate_get_datasets('parcellation', false);
             osf_id = atlas_list.osf{strcmp(atlas_list.name, atlas)};
             atlas_zip = abannotate_download_osf(osf_id, [atlas_dir '.zip'], true);
@@ -68,8 +68,8 @@ switch atlas_type
             delete(atlas_zip);
         end
         % set atlas
-        opt.atlas = fullfile(wd, 'atlas', [atlas '_atlas.nii']);
-        opt.aba_mat = fullfile(wd, 'atlas', [atlas '_expression.mat']);
+        opt.atlas = fullfile(wd, 'atlas', atlas, [atlas '_atlas.nii']);
+        opt.aba_mat = fullfile(wd, 'atlas', atlas, [atlas '_expression.mat']);
         load(opt.aba_mat, 'expression_matrix')
         opt.n_rois = height(expression_matrix);
         clear('expression_matrix');
