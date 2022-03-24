@@ -1,20 +1,19 @@
-﻿dataset/atlas,description,source,provided_by,license,link_source,link_provider
-ABA gene expression data,Brain-wide gene expression data,Allen Brain Atlas,abagen,non-commercial,https://portal.brain-map.org/,https://abagen.readthedocs.io/
-Schaefer cortical parcellation,MNI parcellation,Schaefer 2018,,MIT,https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/brain_parcellation/Schaefer2018_LocalGlobal,
-Tian subcortical parcellation,MNI parcellation,Melbourne Subcortex Atlas,,none,https://github.com/yetianmed/subcortex,
-Neuromorphometrics parcellation,MNI parcellation,"Neuromorphometrics, Inc.",SPM12,GNU General Public,http://www.neuromorphometrics.com/,https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
-ABA-brainSpan-weights,Developmental brain-wide gene expression patterns,Allen BrainSpan Atlas,ABAEnrichment,non-commercial,https://www.brainspan.org/,http://bioconductor.org/packages/release/data/experiment/html/ABAData.html
-DAVID-chromosome-discrete,Chromosome the gene is located at,DAVID,,none,https://david.ncifcrf.gov/,
-DAVID-cytogenicLocation-discrete,Cytogenic location,DAVID,,none,https://david.ncifcrf.gov/,
-DisGeNET-diseaseCuratedAll-discrete,"Gene-disease assocations, curated database",DisGeNET,,CC BY-NC-SA 4.0,https://www.disgenet.org/downloads,
-DisGeNET-diseaseCuratedMental-discrete,"Gene-disease assocations, curated database, only mental disorders",DisGeNET,,CC BY-NC-SA 4.0,https://www.disgenet.org/downloads,
-DisGeNET-diseaseAllAll-discrete,"Gene-disease assocations, automated database",DisGeNET,,CC BY-NC-SA 4.0,https://www.disgenet.org/downloads,
-DisGeNET-diseaseAllMentalBehav-discrete,"Gene-disease assocations, automated database, only mental disorders and behavior",DisGeNET,,CC BY-NC-SA 4.0,https://www.disgenet.org/downloads,
-GO-biologicalProcessDirect-discrete,"Gene-biological process annotations, only direct associations",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
-GO-biologicalProcessProp-discrete,"Gene-biological process annotations, associations propagated up in hierarchy",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
-GO-molecularFunctionDirect-discrete,"Gene-molecular function annotations, only direct associations",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
-GO-molecularFunctionProp-discrete,"Gene-molecular function annotations, associations propagated up in hierarchy",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
-GO-cellularComponentDirect-discrete,"Gene-cellular component annotations, only direct associations",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
-GO-cellularComponentProp-discrete,"Gene-cellular component annotations, associations propagated up in hierarchy",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
-PsychEncode-cellTypesTPM-discrete,"Neuronal cell type marker genes, transcripts per kilobase million",Darmanis 2015; Lake 2016,PsychEncode,none,,http://resource.psychencode.org/
-PsychEncode-cellTypesUMI-discrete,"Neuronal cell type marker genes, unique molecular identifier",Lake 2018,PsychEncode,none,,http://resource.psychencode.org/
+﻿name,type,osf,description,source,provided_by,license,link_source,link_provider
+ABA gene expression data,expression_data,,Brain-wide gene expression data,Allen Brain Atlas,abagen,non-commercial,https://portal.brain-map.org/,https://abagen.readthedocs.io/
+Schaefer100-7_TianS1,parcellation,623c3c4a8d53ef0c7967dca7,MNI parcellation,Schaefer 2018; Melbourne Subcortex Atlas,,MIT; none,https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/brain_parcellation/Schaefer2018_LocalGlobal; https://github.com/yetianmed/subcortex,
+Neuromorphometrics,parcellation,623c3c2fe6b58b0ba3d6b7af,MNI parcellation,"Neuromorphometrics, Inc.",SPM12,GNU General Public,http://www.neuromorphometrics.com/,https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
+ABA-brainSpan-weights,gcea_dataset,623c2d2ce6b58b0b89d6b7fa,Developmental brain-wide gene expression patterns,Allen BrainSpan Atlas,ABAEnrichment,non-commercial,https://www.brainspan.org/,http://bioconductor.org/packages/release/data/experiment/html/ABAData.html
+DAVID-chromosome-discrete,gcea_dataset,623c2cbae6b58b0b8ad6b82a,Chromosome the gene is located at,DAVID,,none,https://david.ncifcrf.gov/,
+DAVID-cytogenicLocation-discrete,gcea_dataset,623c2cc0938b480b7297bba0,Cytogenic location,DAVID,,none,https://david.ncifcrf.gov/,
+DisGeNET-diseaseCuratedAll-discrete,gcea_dataset,623c2cf38d53ef0c5267de6e,"Gene-disease assocations, curated database",DisGeNET,,CC BY-NC-SA 4.0,https://www.disgenet.org/downloads,
+DisGeNET-diseaseCuratedMental-discrete,gcea_dataset,623c2cf68b90a60c1bae4867,"Gene-disease assocations, curated database, only mental disorders",DisGeNET,,CC BY-NC-SA 4.0,https://www.disgenet.org/downloads,
+DisGeNET-diseaseAllAll-discrete,gcea_dataset,623c2d0be6b58b0b8ad6b8cb,"Gene-disease assocations, automated database",DisGeNET,,CC BY-NC-SA 4.0,https://www.disgenet.org/downloads,
+DisGeNET-diseaseAllMentalBehav-discrete,gcea_dataset,623c2ce9938b480b7297bbcd,"Gene-disease assocations, automated database, only mental disorders and behavior",DisGeNET,,CC BY-NC-SA 4.0,https://www.disgenet.org/downloads,
+GO-biologicalProcessDirect-discrete,gcea_dataset,623c2d01d2262f0c932c13fb,"Gene-biological process annotations, only direct associations",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
+GO-biologicalProcessProp-discrete,gcea_dataset,623c2d378d53ef0c5267df5f,"Gene-biological process annotations, associations propagated up in hierarchy",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
+GO-molecularFunctionDirect-discrete,gcea_dataset,623c2d1ce6b58b0b8ad6b8ee,"Gene-molecular function annotations, only direct associations",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
+GO-molecularFunctionProp-discrete,gcea_dataset,623c2d25d2262f0c922c135d,"Gene-molecular function annotations, associations propagated up in hierarchy",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
+GO-cellularComponentDirect-discrete,gcea_dataset,623c2d138b90a60c1bae48f7,"Gene-cellular component annotations, only direct associations",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
+GO-cellularComponentProp-discrete,gcea_dataset,623c2d2b938b480b7697aa98,"Gene-cellular component annotations, associations propagated up in hierarchy",GeneOntology,DAVID,Creative Commons Attribution 4.0 Unported,http://geneontology.org/,https://david.ncifcrf.gov/
+PsychEncode-cellTypesTPM-discrete,gcea_dataset,623c2d208b90a60c17ae47ed,"Neuronal cell type marker genes, transcripts per kilobase million",Darmanis 2015; Lake 2016,PsychEncode,none,,http://resource.psychencode.org/
+PsychEncode-cellTypesUMI-discrete,gcea_dataset,623c2d238d53ef0c5267df28,"Neuronal cell type marker genes, unique molecular identifier",Lake 2018,PsychEncode,none,,http://resource.psychencode.org/

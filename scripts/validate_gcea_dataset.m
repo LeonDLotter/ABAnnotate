@@ -2,7 +2,7 @@ function [valid] = validate_gcea_dataset(dataset_path)
     
 % is file?
 if ~isfile(dataset_path)
-    error(['GCEA dataset file not found! (%s). \nType <get_gcea_datasets> ',...
+    error(['GCEA dataset file not found! (%s). \nType <abannotate_get_datasets> ',...
            'for a list of available datasets.'], dataset_path);
 end
 

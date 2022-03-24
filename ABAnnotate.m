@@ -42,19 +42,39 @@ print_section(['Starting ABAnnotate: ' opt.analysis_name]);
 % set atlas & aba data ---------------------------------------------------
 % default: SchaeferTian-116
 if ~isfield(opt, 'atlas'); opt.atlas = 'SchaeferTian'; end
-% choose atlas - currently only SchaeferTian116 defined
+% choose atlas - currently only SchaeferTian116 and Neuromorphometrics defined
 switch opt.atlas
     case 'SchaeferTian'
-        opt.atlas = fullfile(wd, 'atlas', 'Schaefer100-7_TianS1_atlas.nii');
-        opt.n_rois = 116;
-        opt.aba_mat = fullfile(wd, 'atlas', 'Schaefer100-7_TianS1_expression.mat');
-        fprintf('Setting atlas & ABA data to %s - %u parcels.\n', opt.atlas, opt.n_rois)
+        atlas = 'Schaefer100-7_TianS1';
+        atlas_type = 'integrated';
     case 'Neuromorphometrics'
-        opt.atlas = fullfile(wd, 'atlas', 'Neuromorphometrics_atlas.nii');
-        opt.n_rois = 111;
-        opt.aba_mat = fullfile(wd, 'atlas', 'Neuromorphometrics_expression.mat');
-        fprintf('Setting atlas & ABA data to %s - %u parcels.\n', opt.atlas, opt.n_rois)
+        atlas = 'Neuromorphometrics';
+        atlas_type = 'integrated';
     otherwise
+        atlas_type = 'user';
+end
+% get atlas
+switch atlas_type 
+    case 'integrated'
+        atlas_dir = fullfile(wd, 'atlas', atlas);
+        if ~exist(atlas_dir, 'dir')
+            % download zipped atlas dir from OSF
+            disp('Atlas not found. Downloading...');
+            atlas_list = abannotate_get_datasets('parcellation', false);
+            osf_id = atlas_list.osf{strcmp(atlas_list.name, atlas)};
+            atlas_zip = abannotate_download_osf(osf_id, [atlas_dir '.zip'], true);
+            % unzip & delete
+            unzip(atlas_zip, atlas_dir);
+            delete(atlas_zip);
+        end
+        % set atlas
+        opt.atlas = fullfile(wd, 'atlas', [atlas '_atlas.nii']);
+        opt.aba_mat = fullfile(wd, 'atlas', [atlas '_expression.mat']);
+        load(opt.aba_mat, 'expression_matrix')
+        opt.n_rois = height(expression_matrix);
+        clear('expression_matrix');
+        fprintf('Setting atlas & ABA data to %s - %u parcels.\n', opt.atlas, opt.n_rois)
+    case 'user'
         % check if custom volume. if yes, unzip if ending *.nii.gz
         try
             [~, ~, atlas_ext] = fileparts(opt.atlas);
@@ -171,7 +191,8 @@ if ~isfield(opt.GCEA, 'n_category_nulls'); opt.GCEA.n_category_nulls = opt.n_nul
 % default to Gene Ontology - Biological Process
 % case 1: one of integrated datasets
 if isfield(opt.GCEA, 'dataset') && ~strcmp(opt.GCEA.dataset, 'custom')
-    opt.GCEA.dataset_mat = fullfile(wd, 'datasets', [opt.GCEA.dataset '.mat']);
+    % get path or download
+    opt.GCEA.dataset_mat = get_gcea_dataset(opt.GCEA.dataset);
     disp(['GCEA dataset: ' opt.GCEA.dataset]);
     validate_gcea_dataset(opt.GCEA.dataset_mat);
 % case 2: a custom mat file
@@ -180,8 +201,9 @@ elseif strcmp(opt.GCEA.dataset, 'custom') && isfield(opt.GCEA, 'dataset_mat')
     validate_gcea_dataset(opt.GCEA.dataset_mat);
 % case 3: none set, default to GO-BP
 elseif ~isfield(opt.GCEA, 'dataset') && ~isfield(opt.GCEA, 'dataset_mat')
-    opt.GCEA.dataset = 'GeneOntology-biologicalProcess-discrete';
-    opt.GCEA.dataset_mat = fullfile(wd, 'datasets', [opt.GCEA.dataset '.mat']);
+    opt.GCEA.dataset = 'GO-biologicalProcessDirect-discrete';
+    % get path or download
+    opt.GCEA.dataset_mat = get_gcea_dataset(opt.GCEA.dataset);
     disp(['No dataset provided, defaulting to: ' opt.GCEA.dataset]);
 % case 4: other
 else 

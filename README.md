@@ -3,7 +3,7 @@
 DOI: *Insert here*
 
 [![License: GNU General Public License v3.0](https://img.shields.io/badge/License-GNU%20General%20Public%20License%20v3.0-blue)](https://www.gnu.org/licenses/gpl-3.0.en.html)  
-<font size="1">(Note: *ABAnnotate* inherited its license from its [source toolbox](https://github.com/benfulcher/GeneCategoryEnrichmentAnalysis). Included datasets, especially data from the Allen Institute for Brain Science, are licensed under non-commercial licenses which is to be considered when using *ABAnnotate*'s integrated datasets.)</font>
+<font size="1">(Note: *ABAnnotate* inherited its license from its [source toolbox](https://github.com/benfulcher/GeneCategoryEnrichmentAnalysis). ABAnnotates datasets, especially data from the Allen Institute for Brain Science, are licensed under non-commercial licenses which is to be considered when using *ABAnnotate*.)</font>
 
 ---
 
@@ -25,7 +25,13 @@ The method basically consists of the following steps:
 2. increasing user-friendliness through integration of brain parcellations, associated ABA mRNA expression data, automated neuroimaging null volume generation, and multiple GCEA datasets annotating genes to functional, disease-related, developmental, and neurobiological categories.
 
 ## Datasets
-Source information is provided in [`dataset_sources.csv`](/dataset_sources.csv).  
+All datasets (atlases, ABA data, GCEA datasets) are stored on an [OSF server](https://osf.io/nvcmf/). Source information is provided in [`dataset_sources.csv`](/dataset_sources.csv) which can be loaded and updated from OSF via:
+
+```matlab
+sources_table = abannotate_get_sources;
+```
+
+*ABAnnotate* automatically downloads selected datasets to the two folders `\atlas` and `\datasets`.   
 The toolbox relies heavily on [ABA data](https://portal.brain-map.org/) which was imported through the [abagen toolbox](https://abagen.readthedocs.io/) using the default settings.  
 Currently, two whole-brain parcellations are implemented: A functionally defined parcellation combined from 100 cortical ([Schaefer et al., 2018](https://doi.org/10.1093/cercor/bhx179)) and 16 subcortical parcels ([Tian et al., 2020](https://doi.org/10.1038/s41593-020-00711-6)), and the anatomically defined whole-brain [Neuromorphometrics](http://www.neuromorphometrics.com/) atlas (8 regions without ABA data were removed: 111 parcels).  
 Current GCEA datasets include: 
@@ -40,32 +46,35 @@ Current GCEA datasets include:
 To get a list of all available datasets run:
  
 ```matlab
-get_gcea_datasets;
+abannotate_get_datasets;
 ```
 
 Output: 
 
 ```
-ABA-brainSpan-weights
-DisGeNET-diseaseAllAll-discrete
-DisGeNET-diseaseAllMentalBehav-discrete
-DisGeNET-diseaseCuratedAll-discrete
-DisGeNET-diseaseCuratedMental-discrete
-GO-biologicalProcessDirect-discrete
-GO-biologicalProcessProp-discrete
-GO-cellularComponentDirect-discrete
-GO-cellularComponentProp-discrete
-GO-molecularFunctionDirect-discrete
-GO-molecularFunctionProp-discrete
-PsychEncode-cellTypesTPM-discrete
-PsychEncode-cellTypesUMI-discrete
+Available GCEA datasets:
+- ABA-brainSpan-weights
+- DAVID-chromosome-discrete
+- DAVID-cytogenicLocation-discrete
+- DisGeNET-diseaseCuratedAll-discrete
+- DisGeNET-diseaseCuratedMental-discrete
+- DisGeNET-diseaseAllAll-discrete
+- DisGeNET-diseaseAllMentalBehav-discrete
+- GO-biologicalProcessDirect-discrete
+- GO-biologicalProcessProp-discrete
+- GO-molecularFunctionDirect-discrete
+- GO-molecularFunctionProp-discrete
+- GO-cellularComponentDirect-discrete
+- GO-cellularComponentProp-discrete
+- PsychEncode-cellTypesTPM-discrete
+- PsychEncode-cellTypesUMI-discrete
 ```
 
-Please note that, while *ABAnnotate* is published under a [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) license which allows for commercial use, included datasets are protected by other licences (e.g., ABA data may not be used commercially, DisGeNET data are protected under a [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license). If available, these licensed are listed in [`dataset_sources.csv`](dataset_sources.csv). _This effectively renders *ABAnnotate*, if used as is, unsuitable for commercial use!_
+Please note that, while *ABAnnotate* is published under a [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) license which allows for commercial use, associated datasets are protected by other licences (e.g., ABA data may not be used commercially, DisGeNET data are protected under a [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license). If available, these licensed are listed in [`dataset_sources.csv`](dataset_sources.csv). _This effectively renders *ABAnnotate*, if used as is, unsuitable for commercial use!_
 
 ## Dependencies
 
-*ABAnnotate* was coded in Matlab R2021a. For generation of phenotype null maps, it depends on the [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) image calculator.
+*ABAnnotate* was coded in Matlab R2021a. For generation of phenotype null maps, it depends on the [SPM12](https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) image calculator. It requires an internet connection to download parcellations, ABA data and GCEA datasets from OSF.
 
 ## Usage
 ### Simple
