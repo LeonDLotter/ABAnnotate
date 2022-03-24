@@ -1,5 +1,7 @@
 # ABAnnotate - A Toolbox for Multimodal Gene-Category Enrichment Analysis of Human Neuroimaging Data
 
+*Are you interested in contextualising your brain maps, maybe derived from case-control-comparisons, fMRI tasks, or spatial meta-analysis, across biological systems, ranging from molecular and cell levels to disease-associations? ABAnnotate uses spatial gene expression patterns to derive neuroimaging phenotype-gene associations and asses the overrepresentation of associated genes in several multimodal gene-category datasets.* 
+
 DOI: *Insert here*
 
 [![License: GNU General Public License v3.0](https://img.shields.io/badge/License-GNU%20General%20Public%20License%20v3.0-blue)](https://www.gnu.org/licenses/gpl-3.0.en.html)  
@@ -7,7 +9,7 @@ DOI: *Insert here*
 
 ---
 
-*ABAnnotate* is a Matlab-based toolbox to perform gene-category enrichment analysis (GCEA) from volumetric human neuroimaging data via brain-wide gene expression patterns derived from the Allen Human Brain Atlas (ABA). It applies a nonparametric method developed by [Fulcher et al. (2021)](https://doi.org/10.1038/s41467-021-22862-1) using spatial autocorrelation-corrected phenotype null maps for the estimation of gene-category null ensembles. *ABAnnotate* was adopted from [Fulcher et al.`s toolbox](https://github.com/benfulcher/GeneCategoryEnrichmentAnalysis) which was originally designed for annotation of imaging data to [GeneOntology](http://geneontology.org/) categories. The function to generate null models, along with some utility functions, were taken from the [JuSpace](https://github.com/juryxy/JuSpace) toolbox by [Dukart et al. (2021)](https://doi.org/10.1002/hbm.25244).
+*ABAnnotate* is a Matlab-based toolbox to perform gene-category enrichment analysis (GCEA) from volumetric human neuroimaging data via brain-wide gene expression patterns derived from the Allen Human Brain Atlas (ABA).  It applies a nonparametric method developed by [Fulcher et al. (2021)](https://doi.org/10.1038/s41467-021-22862-1) using spatial autocorrelation-corrected phenotype null maps for the estimation of gene-category null ensembles. *ABAnnotate* was adopted from [Fulcher et al.`s toolbox](https://github.com/benfulcher/GeneCategoryEnrichmentAnalysis) which was originally designed for annotation of imaging data to [GeneOntology](http://geneontology.org/) categories. The function to generate null models, along with some utility functions, were taken from the [JuSpace](https://github.com/juryxy/JuSpace) toolbox by [Dukart et al. (2021)](https://doi.org/10.1002/hbm.25244).
 
 ---
 
