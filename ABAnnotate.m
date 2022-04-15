@@ -27,7 +27,11 @@ logfile = fullfile(wd, 'temp', 'logfile_temp.txt');
 diary(logfile);
 
 % update sources table
-abannotate_get_sources();
+try
+    abannotate_get_sources();
+catch
+    disp('Could not update dataset_sources.csv from OSF, using existing file.');
+end
 
 % get analysis name and print section
 if ~isfield(opt, 'analysis_name') && isfield(opt, 'phenotype')

@@ -1,11 +1,20 @@
 
 # ABAnnotate Example Use Case: 
 
-## Neuronal cell types and developmental gene expression patterns associated with neuronal pain processing
-
+## Neuronal cell type, developmental gene expression patterns and biological processes associated with neuronal pain processing
 
 Here, we use *ABAnnotate* to contextualize a whole-brain map of brain activation generated from the scientific literature on "pain" via [NeuroQuery](https://neuroquery.org/query?text=pain).  
 I will use python code for visualization as I had the respective code ready to use.
+
+---
+
+### Content:
+- [Neurotransmitter associations](#nt)
+- [Neuronal cell types](#cells)
+- [Brain regional gene expression across development](#dev)
+- [Biological processes](#go)
+
+---
 
 Let's take a look at our brain map:
 
@@ -20,7 +29,7 @@ z_plot.savefig('img/brainplot.png', dpi=150)
 
 Convincingly, we see the strongest activations in somatosensory cortices, midline structures, thalami, and brainstem. 
 
-### Neurotransmitter associations
+### <a name="nt"></a>Neurotransmitter associations
 
 Before we start using *ABAnnotate*, let see whether the distribution of pain-related brain activation spatially associates with distributions of neurotransmitter systems as measures using nuclear imaging. We can use [JuSpace](https://github.com/juryxy/JuSpace) to achieve that. JuSpace incorporates many nuclear imaging maps, I, however, used an own collection of neurotransmitter maps I combined from different sources. It is mainly GUI-based, which looks like this:  
 
@@ -32,7 +41,7 @@ In the below bar plot, bars show r-to-Z-transformed Spearman coefficients betwee
 
 We see that several transmitter receptors seem to be spatially associated, but the strongest association is found between the acetylcholine transporter and pain-related brain activation. A role of Ach in pain modulation was indeed discussed in the literature but I'll leave it to you to do with this what you will :).
 
-### Neuronal cell types
+### <a name="cells"></a>Neuronal cell types
 
 Now let's move to *ABAnnotate*. We start with looking at markers for neuronal cell types. We choose the TPM (transcripts per kilobase million) dataset which entails 24 different neuronal cell types, most of them subtypes of inhibitory or excitatory neurons. The dataset itself looks like this:  
 
@@ -71,10 +80,10 @@ disp(cTable)
     {'Adult-Oligo'      }    24      35      {35×1 cell}
 ```
 
-```cLabel``` is the category label, ```cGenes``` a cell vector with the official gene symbols of annotated genes, and ```cSize``` the length of this vector. Looking in at one of this vectors, we can inspect the annotated genes:
+`cLabel` is the category label, `cGenes` a cell vector with the official gene symbols of annotated genes, and `cSize` the length of this vector. Looking in at one of this vectors, we can inspect the annotated genes:
 
 ```matlab
-cTable.cGenes{1}
+disp(cTable.cGenes{1})
 ```
 
 ```
@@ -134,7 +143,7 @@ disp(cTable_celltypes(cTable_celltypes.pValPermCorr<0.05, :))
 
 We have several significantly associated cell types, most of them non-neuronal cells. Sorted by p-values, the two upmost categories are (1) an excitatory neuron class (Ex8) that was classified as corticothalamic projection neurons in the original study that identified our markers ([Lake et al., 2016](https://doi.org/10.1126/science.aaf1204)) and (2) microglia which have been indicated as having a role in chronic and neuropathic pain. 
 
-Let us plot our result (again, in python). We plot the negative natural logarithm of the ```pValZ``` which are the uncorrected p-values derived from fitting a standard distribution to the permutation-derived null category scores. This is nice for plotting as the permutation derived p-values (```pValPerm```) will be cut at a certain low point given by the number of phenotype null maps (i.e., with 1000 null maps the minimum pValPerm would be p = 1/1000 = 0.001, everything lower will be p = 0). However, we use the FDR-corrected permuted p-values (```pValPermCorr```) to mark significance:
+Let us plot our result (again, in python). We plot the negative natural logarithm of the `pValZ` which are the uncorrected p-values derived from fitting a standard distribution to the permutation-derived null category scores. This is nice for plotting as the permutation derived p-values (`pValPerm`) will be cut at a certain low point given by the number of phenotype null maps (i.e., with 1000 null maps the minimum pValPerm would be p = 1/1000 = 0.001, everything lower will be p = 0). However, we use the FDR-corrected permuted p-values (`pValPermCorr`) to mark significance:
 
 ```python
 import pandas as pd
@@ -184,11 +193,12 @@ plt.savefig('img/pain_cells.jpg', bbox_inches='tight', dpi=200)
 <img src="img/pain_cells.jpg" style="width:40%">
 
 
-### Brain regional gene expression across development
+### <a name="dev"></a>Brain regional gene expression across development
 
 Second, we use the BrainSpan dataset to look at how genes associated to pain processing are regionally expressed through development. Here, we have gene expression data for 5 developmental stages and several brain regions. Here, the dataset included in *ABAnnotate* does not consist of markers but of the whole expression vector for each category and we will threshold it to "identify" markers:
 
 ```matlab
+clear opt
 opt.analysis_name = 'pain_brainspan';
 opt.n_nulls = 1000;
 opt.phenotype = 'neuroquery_pain.nii';
@@ -257,20 +267,58 @@ plt.savefig('img/pain_development.jpg', bbox_inches='tight', dpi=200)
 
 It seems, pain-processing-related genes are subcortically expressed throughout development. This time, color represents the p-value and point size the category score.
 
-As you could see, *ABAnnotate* is build to incorporate any kind of "gene-category" dataset. If you want to integrate your own data, just build a mat-file with a table variable named ```cTable``` with the form and datatypes of the example above (see Neuronal Cell Types). Then run *ABAnnotate* with:
+### <a name="go"></a>Biological processes
+
+Now that we have found these associations, wouldn't it be interesting to see in which biological functions the genes that mediate between our pain phenotype and the analyzed gene categories are actually involved? The actual "classical" use case of GCEA is the annotation of a phenotype to [GeneOntology](http://geneontology.org/) (GO) "biological process" categories which annotate genes to a large number of categories depicting sub-cellular processes. These categories are organized hierarchically and we have two options regarding the dataset: `GO-biologicalProcessDirect-discrete` entails only direct gene-GO-category annotations and `GO-biologicalProcessProb-discrete` uses annotations propagated up through the GO-hierarchy. We will use the latter:
 
 ```matlab
-
-opt.analysis_name = 'your_analysis';
+clear opt
+opt.analysis_name = 'pain_biologicalprocesses';
 opt.n_nulls = 1000;
-opt.phenotype = 'your_phenotype_map.nii';
-opt.dir_result = 'results_dir';
-opt.GCEA.dataset = 'custom'; % this indicates a custom dataset
-opt.GCEA.dataset_mat = 'your_dataset.mat'; % the path to your dataset
+opt.phenotype = 'neuroquery_pain.nii';
+opt.dir_result = 'gcea';
+opt.GCEA.dataset = 'GO-biologicalProcessProp-discrete';
+opt.GCEA.size_filter = [5, 200]; % filter categories to those annotating between 5 and 200 genes.
 
-cTable_your_analysis = ABAnnotate(opt);
+cTable_biologicalprocesses = ABAnnotate(opt);
 ```
 
+Usually, we get a large number of significantly associated categories with GO datasets:
+
+```matlab
+fprintf('total: %u, significant: %u', ...
+    height(cTable_biologicalprocesses), ...
+    height(cTable_biologicalprocesses(cTable_biologicalprocesses.pValPermCorr<0.05, :)))
+```
+
+```
+total: 7805, significant: 2533
+```
+
+There are several available method to summarize lists of GO-category obtained from GCEA or similar methods. Here, I use [GO-Figure!](https://doi.org/10.3389/fbinf.2021.638255) to cluster GO-categories based on semantic similarity and visualize the result using multidimensional clustering:  
+
+Export significant GO-categories for use in GO-Figure!:
+
+```matlab
+writetable(cTable_biologicalprocesses(cTable_biologicalprocesses.pValPermCorr<0.05, {'cLabel', 'pValZ'}), ...
+    'gofigure/significant_biologicalprocesses.txt', ...
+    'WriteVariableNames', false, ...
+    'Delimiter', '\t')
+```
+
+Run GO-Figure! from terminal:
+
+```
+python /Users/leonlotter/projects/GO-Figure/gofigure.py -i ./gofigure/significant_biologicalprocesses.txt -o ./gofigure/ -n bpo -q png -w GCEA_pain_biologicalprocesses
+```
+ 
+Each point is a cluster of GO-categories, point size represents the number of categories in each cluster, point color the p-value associated with each cluster (obtained from `cTable.pValZ`), the distance between points shows the (dis-)similarity between categories, and the annotations show single GO-categories that habe been automatically selected as representative for each cluster.
+
+<img src="gofigure/biological_process_GCEA_pain_biologicalprocesses.png" style="width:80%">
+  
+We find an overwhelming association with functions related to immune response. Does this make sense? I'll leave that to you to find out!
+  
+For further customization options, see [`example_customization.md`](example_customization.md).  
 Feel free to [contact me](mailto:leondlotter@gmail.com), if you have questions or run into issues!
 
  

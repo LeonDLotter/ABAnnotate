@@ -1,4 +1,4 @@
-# <a name="top"></a>ABAnnotate - A Toolbox for Ensemble-based Multimodal Gene-Category Enrichment Analysis of Human Neuroimaging Data
+# <a name="top"></a>ABAnnotate - a toolbox for ensemble-based multimodal gene-category enrichment analysis of human neuroimaging data
 
 *Are you interested in contextualising brain maps, maybe derived from case-control-comparisons, fMRI tasks, or spatial meta-analysis, across biological systems ranging from molecular and cell levels to disease-associations? ABAnnotate uses spatial gene expression patterns to derive neuroimaging phenotype-gene associations and asses the overrepresentation of associated genes in several multimodal gene-category datasets.* 
 
@@ -126,7 +126,8 @@ results_table = ABAnnotate(options);
 
 
 ### <a name="usage_advanced"></a>Advanced
-You can define various options and provide precomputed data:  
+
+You can define various options and provide precomputed data (see below). You can also use your own parcellation, but will then have to generate a custom ABA gene expression dataset. All options are shown in [`example/customization.md`](example/example_customization.md). 
 
 ```matlab
 opt = struct();
@@ -157,8 +158,7 @@ opt.GCEA.weights_cutoff = false; % if true, binarize expression values -> standa
 opt.GCEA.gene_coocc_thresh = 0.2; % retain only genes annotated to 20% or less of categories after weight thresholding
 ```
 
-Default GCEA options are imported from [gcea\_default\_settings.m](scripts/gcea_default_settings.m).
-
+Default GCEA options are imported from [gcea\_default\_settings.m](scripts/gcea_default_settings.m). 
 
 ### <a name="usage_output"></a>Output
 *ABAnnotate*'s main output consists of a table with as many rows as there are categories in the current dataset.  
@@ -179,7 +179,7 @@ C: neuroimaging phenotype — developmental brain-regional gene expression (Brai
 
 ### <a name="usage_example"></a>Working Example
 
-In [example/example_pain.md](example/example_pain.md), I provide exemplary analyses using *ABAnnotate* to relate a meta-analytic brain map of pain processing to the integrated neuronal cell type markers and BrainSpan datasets.
+In [`example/example_pain.md`](example/example_pain.md), I provide exemplary analyses using *ABAnnotate* to relate a meta-analytic brain map of pain processing to the integrated neuronal cell type markers, BrainSpan, and GeneOntology "biological process" datasets. In [`example/customization.md`](example/example_customization.md), I line out several implemented customization options.
 
 ## <a name="cite"></a>What to cite
 

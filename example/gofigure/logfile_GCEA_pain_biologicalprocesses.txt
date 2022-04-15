@@ -1,0 +1,65 @@
+GO-Figure! version: 1.0.1
+
+Date run: 2022-04-15
+
+Command line input: ['/Users/leonlotter/projects/GO-Figure/gofigure.py', '-i', './gofigure/significant_biologicalprocesses.txt', '-o', './gofigure/', '-n', 'bpo', '-q', 'png', '-w', 'GCEA_pain_biologicalprocesses']
+
+GOA version used to calculate IC and frequencies: 2020-10-06
+
+go.obo version used: releases/2022-01-13
+
+go.obo version used to create GO relations: releases/2021-02-01
+
+
+Calculating biological process
+
+The following GO terms are converted or deleted because either they are an alt_id and not a primary id in the go.obo, because they are obsolete in the go.obo, or because they can't be found in the go.obo: 
+
+Original GO	New GO(s)	Reason
+GO:0052433	GO:0051709	alt_id
+GO:0052428	GO:0052422	alt_id
+GO:0044531	GO:0051709	alt_id
+GO:0052248	GO:0051709	alt_id
+GO:0017144	GO:0006805	alt_id
+GO:0035587	GO:0035590	alt_id
+GO:0055098	GO:0071404	alt_id
+	GO:0052204	removed
+	GO:0052205	removed
+GO:0052490	GO:0051711	alt_id
+	GO:0052203	removed
+GO:0052405	GO:0052403	alt_id
+	GO:0044800	removed
+GO:0043092	GO:0089718	alt_id
+GO:0097319	GO:0098704	alt_id
+	GO:0051181	removed
+GO:0015696	GO:0072488	alt_id
+	GO:0000187	removed
+GO:1902837	GO:0089718	alt_id
+GO:1903802	GO:0098712	alt_id
+GO:1990123	GO:0098712	alt_id
+GO:0042738	GO:0042178	alt_id
+GO:0042737	GO:0042178	alt_id
+GO:0050880	GO:0097746	alt_id
+	GO:0097756	removed
+	GO:0051817	removed
+GO:0007184	GO:0060390	alt_id
+	GO:0051818	removed
+	GO:0051883	removed
+	GO:0052199	removed
+GO:0030260	GO:0044409	alt_id
+GO:0051806	GO:0044409	alt_id
+GO:0051828	GO:0044409	alt_id
+GO:0035690	GO:0071466	alt_id
+GO:0051852	GO:0051873	alt_id
+GO:0048747	GO:0055001	alt_id
+GO:0052255	GO:0052031	alt_id
+GO:0044253	GO:0009893	alt_id
+	GO:0051187	removed
+GO:0044745	GO:0089718	alt_id
+GO:0048739	GO:0055013	alt_id
+GO:0040023	GO:0007097	alt_id
+GO:0044243	GO:0009056	alt_id
+	GO:0097755	removed
+GO:0033753	GO:0033750	alt_id
+	GO:0043902	removed
+	GO:0071428	removed
