@@ -2,8 +2,8 @@
 
 *Are you interested in contextualising brain maps, maybe derived from case-control-comparisons, fMRI tasks, or spatial meta-analysis, across biological systems ranging from molecular and cell levels to disease-associations? ABAnnotate uses spatial gene expression patterns to derive neuroimaging phenotype-gene associations and asses the overrepresentation of associated genes in several multimodal gene-category datasets.* 
 
-DOI: *Insert here*
 
+[![DOI](https://zenodo.org/badge/473223442.svg)](https://zenodo.org/badge/latestdoi/473223442)  
 [![License: GNU General Public License v3.0](https://img.shields.io/badge/License-GNU%20General%20Public%20License%20v3.0-blue)](https://www.gnu.org/licenses/gpl-3.0.en.html)  
 <font size="1">(Note: *ABAnnotate* inherited its license from its [source toolbox](https://github.com/benfulcher/GeneCategoryEnrichmentAnalysis). Integrated datasets, especially data from the Allen Institute for Brain Science, are licensed under non-commercial licenses which is to be considered when using *ABAnnotate*.)</font>
 
@@ -187,7 +187,7 @@ If you use ABAnnotate in publications, please cite the following sources:
 
 - In any case:
   - [Fulcher et al. (2021)](https://doi.org/10.1038/s41467-021-22862-1). Overcoming false-positive gene-category enrichment in the analysis of spatially resolved transcriptomic brain atlas data. *Nature Communications*.
-  - [Lotter et al. (2022)](link). ABAnnotate: A Toolbox for Multimodal Gene-Category Enrichment Analysis of Human Neuroimaging Data. *Zenodo*.
+  - [Lotter et al. (2022)](https://doi.org/10.5281/zenodo.6463329). ABAnnotate: A toolbox for ensemble-based multimodal gene-category enrichment analysis of human neuroimaging data. *Zenodo*.
 - If you use the integrated ABA datasets:
   - [Hawrylycz et al. (2015)](https://doi.org/10.1038/nn.4171). Canonical genetic signatures of the adult human brain. *Nature Neuroscience*.
   - [Markello et al. (2021)](https://doi.org/10.7554/eLife.72129) Standardizing workflows in imaging transcriptomics with the abagen toolbox. *eLife*.
@@ -223,7 +223,6 @@ If you have questions, comments or suggestions, or would like to contribute to t
 ## To do
 - run thorough testing
 - add detailed documentation
-- more examples
 - add visualization functions
 - more atlases
 - more datasets
