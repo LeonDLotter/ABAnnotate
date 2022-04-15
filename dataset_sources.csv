@@ -1,6 +1,7 @@
 ﻿name,type,osf,description,source,provided_by,license,link_source,link_provider
 ABA gene expression data,expression_data,,Brain-wide gene expression data,Allen Brain Atlas,abagen,non-commercial,https://portal.brain-map.org/,https://abagen.readthedocs.io/
 Schaefer100-7_TianS1,parcellation,623c3c4a8d53ef0c7967dca7,MNI parcellation,Schaefer 2018; Melbourne Subcortex Atlas,,MIT; none,https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/brain_parcellation/Schaefer2018_LocalGlobal; https://github.com/yetianmed/subcortex,
+Schaefer100-7,parcellation,625592c9d5121d0723336745,MNI parcellation,Schaefer 2018,,MIT,https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/brain_parcellation/Schaefer2018_LocalGlobal,
 Neuromorphometrics,parcellation,623c3c2fe6b58b0ba3d6b7af,MNI parcellation,"Neuromorphometrics, Inc.",SPM12,GNU General Public,http://www.neuromorphometrics.com/,https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
 ABA-brainSpan-weights,gcea_dataset,623c2d2ce6b58b0b89d6b7fa,Developmental brain-wide gene expression patterns,Allen BrainSpan Atlas,ABAEnrichment,non-commercial,https://www.brainspan.org/,http://bioconductor.org/packages/release/data/experiment/html/ABAData.html
 DAVID-chromosome-discrete,gcea_dataset,623c2cbae6b58b0b8ad6b82a,Chromosome the gene is located at,DAVID,,none,https://david.ncifcrf.gov/,

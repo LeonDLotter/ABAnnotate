@@ -1,0 +1,1 @@
+Open [example_pain.md](example_pain.md) for a working example of *ABAnnotate* using a brain map of pain processing.

@@ -26,7 +26,10 @@ wd = fileparts(which('ABAnnotate'));
 logfile = fullfile(wd, 'temp', 'logfile_temp.txt');
 diary(logfile);
 
-% get analysis name and start section
+% update sources table
+abannotate_get_sources();
+
+% get analysis name and print section
 if ~isfield(opt, 'analysis_name') && isfield(opt, 'phenotype')
     [~, opt.analysis_name, ~] = fileparts(opt.phenotype);
 elseif ~isfield(opt, 'analysis_name')
@@ -41,13 +44,16 @@ print_section(['Starting ABAnnotate: ' opt.analysis_name]);
  
 % set atlas & aba data ---------------------------------------------------
 % default: SchaeferTian-116
-if ~isfield(opt, 'atlas'); opt.atlas = 'SchaeferTian'; end
-% choose atlas - currently only SchaeferTian116 and Neuromorphometrics defined
+if ~isfield(opt, 'atlas'); opt.atlas = 'Schaefer100-7_TianS1'; end
+% choose atlas - currently only SchaeferTian116, Schaefer100, and Neuromorphometrics defined
 switch opt.atlas
-    case 'SchaeferTian'
+    case {'SchaeferTian', 'Schaefer100-7_TianS1'}
         atlas = 'Schaefer100-7_TianS1';
         atlas_type = 'integrated';
-    case 'Neuromorphometrics'
+    case {'Schaefer', 'Schaefer100-7', 'Schaefer100'}
+        atlas = 'Schaefer100-7';
+        atlas_type = 'integrated';
+    case {'Neuromorphometrics', 'neuromorphometrics'}
         atlas = 'Neuromorphometrics';
         atlas_type = 'integrated';
     otherwise
@@ -59,7 +65,7 @@ switch atlas_type
         atlas_dir = fullfile(wd, 'atlas', atlas);
         if ~exist(atlas_dir, 'dir')
             % download zipped atlas dir from OSF
-            fprintf('Atlas %s not found. Downloading...', atlas);
+            fprintf('Atlas %s not found. Downloading...\n', atlas);
             atlas_list = abannotate_get_datasets('parcellation', false);
             osf_id = atlas_list.osf{strcmp(atlas_list.name, atlas)};
             atlas_zip = abannotate_download_osf(osf_id, [atlas_dir '.zip'], true);
@@ -90,8 +96,9 @@ switch atlas_type
                 error('If you provide a custom atlas, you must also provide matching ABA data!')
             end
         catch
-            error(['Current included options for opt.atlas are: <SchaeferTian>, ', ...
-                   '<Neuromorphometrics> or a path to a custom atlas volume!']);
+            error(['Atlas not valid. Choose one of the integrated atlases or ', ...
+                   'provide a path to a custom atlas volume! ', ...
+                   'Run <abannotate_get_datasets("parcellation");> for a list of available atlases.']);
         end
 end
 
