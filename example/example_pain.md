@@ -181,7 +181,7 @@ cb.set_label("Z (Spearman's rho'", size=12)
 plt.savefig('img/pain_cells.jpg', bbox_inches='tight', dpi=200)
 ```
 
-<img src="img/pain_cells.jpg" style="width:50%">
+<img src="img/pain_cells.jpg" style="width:40%">
 
 
 ### Brain regional gene expression across development
@@ -253,7 +253,7 @@ plt.annotate('test', (2.2,0.5))
 plt.savefig('img/pain_development.jpg', bbox_inches='tight', dpi=200)
 ```
 
-<img src="img/pain_development.jpg" style="width:100%">
+<img src="img/pain_development.jpg" style="width:80%">
 
 It seems, pain-processing-related genes are subcortically expressed throughout development. This time, color represents the p-value and point size the category score.
 
