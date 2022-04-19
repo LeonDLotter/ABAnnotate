@@ -9,6 +9,7 @@ I will use python code for visualization as I had the respective code ready to u
 ---
 
 ### Content:
+
 - [Neurotransmitter associations](#nt)
 - [Neuronal cell types](#cells)
 - [Brain regional gene expression across development](#dev)
@@ -312,7 +313,7 @@ Run GO-Figure! from terminal:
 python /Users/leonlotter/projects/GO-Figure/gofigure.py -i ./gofigure/significant_biologicalprocesses.txt -o ./gofigure/ -n bpo -q png -w GCEA_pain_biologicalprocesses
 ```
  
-Each point is a cluster of GO-categories, point size represents the number of categories in each cluster, point color the p-value associated with each cluster (obtained from `cTable.pValZ`), the distance between points shows the (dis-)similarity between categories, and the annotations show single GO-categories that habe been automatically selected as representative for each cluster.
+Each point is a cluster of GO-categories, point size represents the number of categories in each cluster, point color the p-value associated with each cluster (obtained from `cTable.pValZ`), the distance between points shows the (dis-)similarity between categories, and the annotations show single GO-categories that have been automatically selected as representative for each cluster.
 
 <img src="gofigure/biological_process_GCEA_pain_biologicalprocesses.png" style="width:80%">
   

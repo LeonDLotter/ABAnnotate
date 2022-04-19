@@ -4,20 +4,23 @@
 
 
 [![DOI](https://zenodo.org/badge/473223442.svg)](https://zenodo.org/badge/latestdoi/473223442)  
-[![License: GNU General Public License v3.0](https://img.shields.io/badge/License-GNU%20General%20Public%20License%20v3.0-blue)](https://www.gnu.org/licenses/gpl-3.0.en.html)  
+[![License: GNU General Public License v3.0](https://img.shields.io/badge/License-GNU%20General%20Public%20License%20v3.0-lightgrey)](https://www.gnu.org/licenses/gpl-3.0.en.html)  
+
 <font size="1">(Note: *ABAnnotate* inherited its license from its [source toolbox](https://github.com/benfulcher/GeneCategoryEnrichmentAnalysis). Integrated datasets, especially data from the Allen Institute for Brain Science, are licensed under non-commercial licenses which is to be considered when using *ABAnnotate*.)</font>
 
 ---
 
 *ABAnnotate* is a Matlab-based toolbox to perform ensemble-based gene-category enrichment analysis (GCEA) on volumetric human neuroimaging data via brain-wide gene expression patterns derived from the Allen Human Brain Atlas (ABA). It applies a nonparametric method developed by [Fulcher et al. (2021)](https://doi.org/10.1038/s41467-021-22862-1) using spatial autocorrelation-corrected phenotype null maps for the estimation of gene-category null ensembles. *ABAnnotate* was adopted from [Fulcher et al.`s toolbox](https://github.com/benfulcher/GeneCategoryEnrichmentAnalysis) which was originally designed for annotation of imaging data to [GeneOntology](http://geneontology.org/) categories. The function to generate null models, along with some utility functions, were taken from the [JuSpace](https://github.com/juryxy/JuSpace) toolbox by [Dukart et al. (2021)](https://doi.org/10.1002/hbm.25244).
 
-*ABAnnotate* is under development. It works but you may well encounter bugs when using it. Please feel free to report these by opening an issue or contacting me.
+*ABAnnotate* is under development. It works of the box but you may well encounter bugs when using it. Please feel free to report these by opening an issue or contacting me.
 
 ---
 
 ## Content:  
 - [Method](#method)  
 - [Datasets](#datasets)
+  - [Atlases & ABA data](#datasets_atlas)
+  - [GCEA datasets](#datasets_gcea)
 - [Dependencies](#depend)
 - [Usage](#usage)
   - [Simple](#usage_simple)
@@ -26,6 +29,7 @@
   - [Example visualizations](#usage_vis)
   - [Working example](#usage_example)
 - [What to cite](#cite)
+- [Contact](#contact)
 
 ---
 
@@ -51,9 +55,16 @@ All datasets (atlases, ABA data, GCEA datasets) are stored on an [OSF server](ht
 sources_table = abannotate_get_sources;
 ```
 
-*ABAnnotate* automatically downloads selected datasets to the two folders `\atlas` and `\datasets`.   
-The toolbox relies heavily on [ABA data](https://portal.brain-map.org/) which was imported through the [abagen toolbox](https://abagen.readthedocs.io/) using the default settings.  
+*ABAnnotate* automatically downloads selected datasets to the two folders `\atlas` (parcellation volumes and parcel-wise ABA data) and `\datasets` (GCEA datasets).   
+
+### <a name="datasets_atlas"></a>Atlases & ABA data
+
+The toolbox relies heavily on [ABA data](https://portal.brain-map.org/) which was imported through the [abagen toolbox](https://abagen.readthedocs.io/) using the default settings. For each parcellation, there is an associated `{atlas_name}_report.md` file with information on the processing done by *abagen*.  
 Currently, three parcellations are implemented: A functionally defined parcellation combined from 100 cortical ([Schaefer et al., 2018](https://doi.org/10.1093/cercor/bhx179)) and 16 subcortical parcels ([Tian et al., 2020](https://doi.org/10.1038/s41593-020-00711-6)), a second version of this parcellation with only the 100 cortical parcels, and the anatomically defined whole-brain [Neuromorphometrics](http://www.neuromorphometrics.com/) atlas (8 regions without ABA data (31, 72, 118, 121, 148, 149, 156, 174) were removed: 111 parcels).  
+See [`example/customization.md`](example/example_customization.md#Use-a-custom-parcellation-and-generate-an-ABA-dataset-to-use-for-GCEA) for information on how to import your own ABA data (e.g., if you want to use a custom parcellation or alter ABA mRNA expression data processing).
+
+### <a name="datasets_gcea"></a>GCEA datasets
+
 Current GCEA datasets include: 
 
 - [GeneOntology](http://geneontology.org/) categories derived via [DAVID](https://david.ncifcrf.gov/)
@@ -62,8 +73,7 @@ Current GCEA datasets include:
 - [PsychEncode](http://resource.psychencode.org/) neuronal cell type markers  
 - Chromosomal and cytogenic gene locations derived from [DAVID](https://david.ncifcrf.gov/)
 
-
-To get a list of all available datasets run:
+To get a list of all available GCEA datasets run:
  
 ```matlab
 abannotate_get_datasets;
@@ -111,7 +121,6 @@ startup;
 All Options are defined in a `struct` array:
 
 ```matlab
-opt = struct();
 opt.analysis_name = 'GCEA_GeneOntology'; % name for analysis
 opt.phenotype = '/path/to/input/volume.nii'; % input "phenotype" volume
 opt.dir_result = '/path/to/save/output'; % output directory
@@ -121,16 +130,14 @@ opt.GCEA.dataset = 'GO-biologicalProcessProp-discrete'; % selected GCEA dataset
 Run:
 
 ```matlab
-results_table = ABAnnotate(options);
+results_table = ABAnnotate(opt);
 ```
-
 
 ### <a name="usage_advanced"></a>Advanced
 
 You can define various options and provide precomputed data (see below). You can also use your own parcellation, but will then have to generate a custom ABA gene expression dataset. All options are shown in [`example/customization.md`](example/example_customization.md). 
 
 ```matlab
-opt = struct();
 opt.analysis_name = 'GCEA_GeneOntology'; % name for analysis
 opt.phenotype = '/path/to/input/volume.nii'; % input "phenotype" volume
 opt.phenotype_nulls = '/path/to/precomputed/phenotype_nulls.mat'; % use already computed phenotype nulls
@@ -147,7 +154,6 @@ opt.GCEA.p_tail = 'right'; % one of {'right', 'left'}
 *ABAnnotate* can incorporate "continuous" GCEA datasets with gene expression values across the whole genome for each category. This currently applies only to the BrainSpan dataset. You can choose your own thresholding settings to define marker genes and weight each gene-phenotype correlation by the gene's expression value when calculating category scores:
 
 ```matlab
-opt = struct():
 opt.analysis_name = 'GCEA_BrainSpan'; % name for analysis
 opt.phenotype = '/path/to/input/volume.nii'; % input "phenotype" volume
 opt.dir_result = '/path/to/save/output'; % output directory
@@ -161,6 +167,7 @@ opt.GCEA.gene_coocc_thresh = 0.2; % retain only genes annotated to 20% or less o
 Default GCEA options are imported from [gcea\_default\_settings.m](scripts/gcea_default_settings.m). 
 
 ### <a name="usage_output"></a>Output
+
 *ABAnnotate*'s main output consists of a table with as many rows as there are categories in the current dataset.  
 Below you see an example output from the neuronal cell type dataset (transcripts per kilobase million; TPM). Here, we have marker sets for 24 cell types (Ex/In = excitatory/inhibitory neuron subclasses; see [Lake et al. (2016)](https://doi.org/10.1126/science.aaf1204) for detailed information). The three top categories are significant at FDR-corrected p < .05 using the nonparametric procedure.
 
@@ -215,10 +222,9 @@ If you use ABAnnotate in publications, please cite the following sources:
   - Markers based on unique molecular identifiers (UMI):
      - [Lake et al. (2018)](https://doi.org/10.1038/nbt.4038). Integrative single-cell analysis of transcriptional and epigenetic states in the human adult brain. *Nature Biotechnology*.
 
-
 ## <a name="contact"></a>Contact
-If you have questions, comments or suggestions, or would like to contribute to the toolbox, open an issue or [contact me](mailto:leondlotter@gmail.com)! 
 
+Do you have questions, comments or suggestions, would like to contribute to the toolbox, or would like to see a certain gene-category dataset added to the toolbox? Open an issue or [contact me](mailto:leondlotter@gmail.com)! 
 
 ## To do
 - run thorough testing
