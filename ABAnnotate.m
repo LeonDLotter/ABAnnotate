@@ -23,7 +23,11 @@ end
 
 % get directory & start logging
 wd = fileparts(which('ABAnnotate'));
-logfile = fullfile(wd, 'temp', 'logfile_temp.txt');
+tempdir = fullfile(wd, 'temp')
+if ~exist(tempdir, 'dir')
+    mkdir(tempdir)
+end
+logfile = fullfile(tempdir, 'logfile_temp.txt');
 diary(logfile);
 
 % update sources table
@@ -290,7 +294,7 @@ end
 
 % delete temp data
 diary('off');
-delete(fullfile(wd, 'temp', '*'));
+delete(fullfile(tempdir, '*'));
 
 print_section(['Finished ABAnnotate: ' opt.analysis_name]);
      
