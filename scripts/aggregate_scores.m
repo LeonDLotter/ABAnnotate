@@ -25,7 +25,7 @@ switch aggregation_method
     case 'absweightedmean'
         category_score = nansum(abs(gene_scores) .* gene_weights, 1) ./ nansum(gene_weights, 1);
     otherwise
-        error('Unknown aggregation option: ''%s''', aggregation_method);
+        error('Unknown aggregation option: "%s"', aggregation_method);
 end
 
 end

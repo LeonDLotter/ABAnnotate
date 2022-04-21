@@ -42,7 +42,7 @@ end
 if ismember(del, {'Y', 'y', 'yes', 'Yes', 'YES'})
     for i=1:length(files_to_delete)
         file_to_delete = files_to_delete{i};
-        disp(['Deleting file: ' file_to_delete]);
+        fprintf('Deleting file: %s\n', file_to_delete);
         if endsWith(file_to_delete, '.mat')
             delete(file_to_delete); 
         else

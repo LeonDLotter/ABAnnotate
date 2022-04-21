@@ -40,7 +40,7 @@ end
 if ismember(del, {'Y', 'y', 'yes', 'Yes', 'YES'})
     for i=1:length(files_to_delete)
         fullfile_to_delete = fullfile(null_dir, files_to_delete{i});
-        disp(['Deleting file: ' fullfile_to_delete]);
+        fprintf('Deleting file: %s\n', fullfile_to_delete);
         delete(fullfile_to_delete); 
     end
 else

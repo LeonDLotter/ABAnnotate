@@ -7,6 +7,8 @@ function [datasets] = abannotate_get_datasets(dataset_type, disp_names)
 
 if ~exist('dataset_type', 'var')
     dataset_type = 'gcea_dataset';
+else
+    dataset_type = char(dataset_type);
 end
 if ~exist('disp_names', 'var')
     disp_names = true;

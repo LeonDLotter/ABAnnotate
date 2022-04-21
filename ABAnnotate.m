@@ -21,11 +21,11 @@ if ~isfield(opt, 'phenotype') && ~isfield(opt, 'phenotype_data')
            'or data (opt.phenotype_data)!']);
 end
 
-% get directory & start logging
+% get directories & start logging
 wd = fileparts(which('ABAnnotate'));
-tempdir = fullfile(wd, 'temp')
+tempdir = fullfile(wd, 'temp');
 if ~exist(tempdir, 'dir')
-    mkdir(tempdir)
+    mkdir(tempdir);
 end
 logfile = fullfile(tempdir, 'logfile_temp.txt');
 diary(logfile);
@@ -41,19 +41,23 @@ end
 if ~isfield(opt, 'analysis_name') && isfield(opt, 'phenotype')
     [~, opt.analysis_name, ~] = fileparts(opt.phenotype);
 elseif ~isfield(opt, 'analysis_name')
-    opt.analysis_name = ['enrich_' date];
+    opt.analysis_name = sprintf('enrich_%s', date);
+else
+    opt.analysis_name = char(opt.analysis_name);
 end
-print_section(['Starting ABAnnotate: ' opt.analysis_name]);
+print_section(sprintf('Starting ABAnnotate: %s', opt.analysis_name));
 
 
 %% ------------------------------------------------------------------------
 % Prepare imaging files & null maps
 % -------------------------------------------------------------------------
  
-% set atlas & aba data ---------------------------------------------------
+% set atlas & aba data ----------------------------------------------------
+
 % default: SchaeferTian-116
 if ~isfield(opt, 'atlas'); opt.atlas = 'Schaefer100-7_TianS1'; end
 % choose atlas - currently only SchaeferTian116, Schaefer100, and Neuromorphometrics defined
+opt.atlas = char(opt.atlas);
 switch opt.atlas
     case {'SchaeferTian', 'Schaefer100-7_TianS1'}
         atlas = 'Schaefer100-7_TianS1';
@@ -67,8 +71,10 @@ switch opt.atlas
     otherwise
         atlas_type = 'user';
 end
+
 % get atlas
 switch atlas_type 
+    
     case 'integrated'
         atlas_dir = fullfile(wd, 'atlas', atlas);
         if ~exist(atlas_dir, 'dir')
@@ -82,15 +88,17 @@ switch atlas_type
             delete(atlas_zip);
         end
         % set atlas
-        opt.atlas = fullfile(wd, 'atlas', atlas, [atlas '_atlas.nii']);
-        opt.aba_mat = fullfile(wd, 'atlas', atlas, [atlas '_expression.mat']);
+        opt.atlas = fullfile(wd, 'atlas', atlas, sprintf('%s_atlas.nii', atlas));
+        opt.aba_mat = fullfile(wd, 'atlas', atlas, sprintf('%s_expression.mat', atlas));
         load(opt.aba_mat, 'expression_matrix')
         opt.n_rois = height(expression_matrix);
         clear('expression_matrix');
-        fprintf('Setting atlas & ABA data to %s - %u parcels.\n', opt.atlas, opt.n_rois)
+        fprintf('Setting atlas & ABA data to %s - %u parcels.\n', opt.atlas, opt.n_rois);
+        
     case 'user'
         % check if custom volume. if yes, unzip if ending *.nii.gz
         try
+            % load & unzip atlas
             [~, ~, atlas_ext] = fileparts(opt.atlas);
             if strcmp(atlas_ext, '.gz')
                 atlas_unzip = gunzip(opt.atlas, fullfile(wd, 'temp'));
@@ -99,18 +107,35 @@ switch atlas_type
             else
                 error('Filetype of %s is not supported!', opt.phenotype);
             end
-            disp(['Using custom provided atlas: ' opt.atlas]);
-            if ~isfield(opt, 'aba_mat')
-                error('If you provide a custom atlas, you must also provide matching ABA data!')
-            end
         catch
             error(['Atlas not valid. Choose one of the integrated atlases or ', ...
                    'provide a path to a custom atlas volume! ', ...
                    'Run <abannotate_get_datasets("parcellation");> for a list of available atlases.']);
         end
+        % get roi number
+        opt.n_rois = get_number_of_rois(opt.atlas);
+        fprintf('Using custom provided atlas: %s - %u parcels.\n', opt.atlas, opt.n_rois);
+        % check associated ABA expression matrix
+        if ~isfield(opt, 'aba_mat')
+            error('If you provide a custom atlas, you must also provide matching ABA data!')
+        end
+        try
+            load(opt.aba_mat, 'expression_matrix', 'gene_symbols');
+        catch
+            error('Problems loading variables "expression_matrix" and "gene_symbols" from opt.aba_mat!');
+        end
+        % compare numbers
+        if opt.n_rois~=height(expression_matrix)
+            error('Number of ROIs in atlas (%u) does not match number of values in expression matrix (%u)!', opt.n_rois, height(expression_matrix))
+        end
+        if length(gene_symbols)~=width(expression_matrix)
+            error('Length of gene_symbols width of expression_matrix do not match!');
+        end
+        clear('expression_matrix', 'gene_symbols');
 end
 
 % parcellate pheno volume -------------------------------------------------
+
 % if pheno data provided, will use data and ignore volume!
 if ~isfield(opt, 'phenotype_data')
     fprintf('Applying parcellation to %s.\n', opt.phenotype);
@@ -119,25 +144,34 @@ if ~isfield(opt, 'phenotype_data')
     if strcmp(phenotype_ext, '.gz')
         phenotype_unzip = gunzip(opt.phenotype, fullfile(wd, 'temp'));
     elseif strcmp(phenotype_ext, '.nii')
-        phenotype_unzip = {opt.phenotype};
+        phenotype_unzip = cellstr(opt.phenotype);
     else
         error('Filetype of %s is not supported!', opt.phenotype);
     end
     % parcellate
     [phenotype_parc, ~] = mean_time_course(phenotype_unzip, opt.atlas, 1:opt.n_rois);
     opt.phenotype_data = phenotype_parc';
+    
 % else check if input data is provided
 elseif isfield(opt, 'phenotype_data')
-    if size(opt.phenotype_data) ~= [opt.n_rois 1]
-        error('Phenotype data has to be opt.n_rois x 1 vector!');
+    disp('Phenotype data array provided, overriding opt.phenotype with "data".');
+    opt.phenotype = 'data';
+    if ~isequal(size(opt.phenotype_data), [opt.n_rois 1])
+        error('Phenotype data has to be vector of size [%d, 1]!', opt.n_rois);
     end
-    disp('Phenotype data array provided, ignoring opt.phenotype');
+
 % else something did not work
 else
     error('It seems you did not provide opt.phenotype or opt.phenotype_data!'); 
-end
+    end
 
+% check for NaNs
+if any(isnan(opt.phenotype_data))
+    warning('Parcellated phenotype data contains NaNs! Respective regions will be ignored.');
+end
+    
 % get phenotype nulls -----------------------------------------------------
+
 % number of phenotype nulls
 if ~isfield(opt, 'n_nulls'); opt.n_nulls = 1000; end
 
@@ -204,22 +238,22 @@ if ~isfield(opt.GCEA, 'n_category_nulls'); opt.GCEA.n_category_nulls = opt.n_nul
 
 % Dataset -----------------------------------------------------------------
 % default to Gene Ontology - Biological Process
-% case 1: one of integrated datasets
-if isfield(opt.GCEA, 'dataset') && ~strcmp(opt.GCEA.dataset, 'custom')
-    % get path or download
-    opt.GCEA.dataset_mat = get_gcea_dataset(opt.GCEA.dataset);
-    disp(['GCEA dataset: ' opt.GCEA.dataset]);
-    validate_gcea_dataset(opt.GCEA.dataset_mat);
-% case 2: a custom mat file
-elseif strcmp(opt.GCEA.dataset, 'custom') && isfield(opt.GCEA, 'dataset_mat')
-    disp(['Custom GCEA dataset: ' opt.GCEA.dataset_mat]);
-    validate_gcea_dataset(opt.GCEA.dataset_mat);
-% case 3: none set, default to GO-BP
-elseif ~isfield(opt.GCEA, 'dataset') && ~isfield(opt.GCEA, 'dataset_mat')
+% case 1: none set, default to GO-BP
+if ~isfield(opt.GCEA, 'dataset') && ~isfield(opt.GCEA, 'dataset_mat')
     opt.GCEA.dataset = 'GO-biologicalProcessDirect-discrete';
+    fprintf('No dataset provided, defaulting to: %s\n', opt.GCEA.dataset);
     % get path or download
     opt.GCEA.dataset_mat = get_gcea_dataset(opt.GCEA.dataset);
-    disp(['No dataset provided, defaulting to: ' opt.GCEA.dataset]);
+% case 2: one of integrated datasets
+elseif isfield(opt.GCEA, 'dataset') && ~strcmp(opt.GCEA.dataset, 'custom')
+    % get path or download
+    opt.GCEA.dataset_mat = get_gcea_dataset(opt.GCEA.dataset);
+    fprintf('GCEA dataset: %s\n', opt.GCEA.dataset);
+    validate_gcea_dataset(opt.GCEA.dataset_mat);
+% case 3: a custom mat file
+elseif strcmp(opt.GCEA.dataset, 'custom') && isfield(opt.GCEA, 'dataset_mat')
+    fprintf('Custom GCEA dataset: %s\n', opt.GCEA.dataset_mat);
+    validate_gcea_dataset(opt.GCEA.dataset_mat);
 % case 4: other
 else 
     disp(['You must provide ether a valid dataset name or set <opt.gcea.dataset> to ', ...
@@ -277,26 +311,26 @@ if isfield(opt, 'dir_result')
     cTablePheno_csv = cTablePheno;
     cTablePheno_csv = removevars(cTablePheno_csv, {'cWeights', 'cScoresNull'});
     cTablePheno_csv.cGenes = cellfun(@(x) strjoin(x, ', '), cTablePheno.cGenes, 'UniformOutput', false);
-    writetable(cTablePheno_csv, fullfile(opt.dir_result, ['GCEA_' opt.analysis_name '.csv']));
+    writetable(cTablePheno_csv, fullfile(opt.dir_result, sprintf('GCEA_%s.csv', opt.analysis_name)));
         
     % write mat
-    save(fullfile(opt.dir_result, ['GCEA_' opt.analysis_name '.mat']), 'cTablePheno', 'opt');
+    save(fullfile(opt.dir_result, sprintf('GCEA_%s.mat', opt.analysis_name)), 'cTablePheno', 'opt');
      
     % write setting xml
-    writestruct(opt, fullfile(opt.dir_result, ['GCEA_' opt.analysis_name '_settings.xml']))
+    writestruct(opt, fullfile(opt.dir_result, sprintf('GCEA_%s_settings.xml', opt.analysis_name)))
     
     % copy logfile
-    copyfile(logfile, fullfile(opt.dir_result, ['GCEA_' opt.analysis_name '_log.txt']));
+    copyfile(logfile, fullfile(opt.dir_result, sprintf('GCEA_%s_log.txt', opt.analysis_name)));
 
     % print
-    fprintf('Saved results to %s.\n', fullfile(opt.dir_result, ['GCEA_' opt.analysis_name '*.*']));
+    fprintf('Saved results to %s.\n', fullfile(opt.dir_result, sprintf('GCEA_%s*.*', opt.analysis_name)));
 end
 
 % delete temp data
 diary('off');
 delete(fullfile(tempdir, '*'));
 
-print_section(['Finished ABAnnotate: ' opt.analysis_name]);
+print_section(sprintf('Finished ABAnnotate: %s', opt.analysis_name));
      
 end % function
 

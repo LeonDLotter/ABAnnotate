@@ -1,6 +1,8 @@
 function [D, Reg_all] = mean_time_course(data_mean, data_ROI, numberROIs)
-%[D,Reg_all] = mean_time_course(data_for_mean, mask_ROIs,numberROIs)
-
+%[D, Reg_all] = mean_time_course(data_mean, data_ROI, numberROIs)
+%
+% Extract region-wise data from a volume {data_mean} and a parcellation
+% {data_ROI}. {numberROIs} must be a vector of length 1:number of rois.
 
 size_data = size(data_mean);
 [ROI_matrix] = resize_img_useTemp_imcalc(data_ROI,data_mean{1});

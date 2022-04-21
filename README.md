@@ -37,7 +37,7 @@
 
 The method basically consists of the following steps:
 
-1. An input volume ("phenotype") is parcellated according to given parcellation and null models corrected for spatial-autocorrelation are generated.  
+1. An input volume ("phenotype") is parcellated according to given parcellation and null models corrected for spatial autocorrelation are generated (if autocorrelation was detected in the data).  
 2. For each null phenotype and each gene category a "category score" is obtained by correlating the null phenotype with the spatial mRNA expression pattern of each gene and averaging the z-transformed correlation coefficients off all genes annotated to a certain category within each category (= null categories).  
 3. The generated null category scores are then compared to the "real" category score obtained by correlating the "real" phenotype with all genes in each category and averaging the correlation coefficients per category.  
 4. One-sided p values for each category are obtained from the estimated null distribution of category scores and the resulting p-values are FDR-corrected.  

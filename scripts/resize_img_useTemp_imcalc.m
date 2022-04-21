@@ -1,5 +1,5 @@
 function [img3d] = resize_img_useTemp_imcalc(file,temp)
-% function [img3d] = resize_img_useTemp_imcalc(file,temp,opt_save)
+% function [img3d] = resize_img_useTemp_imcalc(file,temp)
 %-----------------------------------------------------------------------
 % Job saved on 15-Jul-2015 09:33:17 by cfg_util (rev $Rev: 6134 $)
 % spm SPM - SPM12 (6225)

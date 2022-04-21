@@ -109,7 +109,7 @@ end
 fprintf('\n');
 
 %--------------------------------------------------------------------------
-% Agglomerate gene scores by GO category
+% Agglomerate gene scores by gene category
 %--------------------------------------------------------------------------
 category_scores = cell(n_categories, 1);
 for i = 1:n_categories
@@ -151,7 +151,7 @@ cTable.cScores = category_scores;
 % Save results to .mat file
 save_path = gcea_opt.category_nulls;
 if save_result
-    fprintf(1,'Saving nulls from %u iterations to ''%s''\n', n_null, save_path);
+    fprintf(1,'Saving nulls from %u iterations to "%s"\n', n_null, save_path);
     save(save_path, 'cTable', 'gcea_opt', '-v7');
 end
 

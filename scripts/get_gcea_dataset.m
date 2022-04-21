@@ -4,6 +4,7 @@ function [dataset_path] = get_gcea_dataset(dataset_name)
 % Gets path to ABAnnotate GCEA dataset or downloads it from OSF
 
 wd = fileparts(which('Abannotate'));
+dataset_name = char(dataset_name);
 
 % get list of datasets
 dataset_list = abannotate_get_datasets('gcea_dataset', false);
@@ -20,7 +21,7 @@ dataset_path = fullfile(wd, 'datasets', [dataset_name '.mat']);
 if ~exist(dataset_path, 'file')
     disp('Dataset not found. Downloading from OSF...')
     abannotate_download_osf(osf_id, dataset_path);
-    disp(['Saved to: ' dataset_path]);
+    fprintf('Saved to: %s\n', dataset_path);
 end
 
 end
