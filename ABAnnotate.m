@@ -91,7 +91,7 @@ switch atlas_type
         opt.atlas = fullfile(wd, 'atlas', atlas, sprintf('%s_atlas.nii', atlas));
         opt.aba_mat = fullfile(wd, 'atlas', atlas, sprintf('%s_expression.mat', atlas));
         load(opt.aba_mat, 'expression_matrix')
-        opt.n_rois = height(expression_matrix);
+        opt.n_rois = size(expression_matrix,1);
         clear('expression_matrix');
         fprintf('Setting atlas & ABA data to %s - %u parcels.\n', opt.atlas, opt.n_rois);
         
@@ -125,10 +125,10 @@ switch atlas_type
             error('Problems loading variables "expression_matrix" and "gene_symbols" from opt.aba_mat!');
         end
         % compare numbers
-        if opt.n_rois~=height(expression_matrix)
-            error('Number of ROIs in atlas (%u) does not match number of values in expression matrix (%u)!', opt.n_rois, height(expression_matrix))
+        if opt.n_rois~=size(expression_matrix,1)
+            error('Number of ROIs in atlas (%u) does not match number of values in expression matrix (%u)!', opt.n_rois, size(expression_matrix,1))
         end
-        if length(gene_symbols)~=width(expression_matrix)
+        if length(gene_symbols)~=size(expression_matrix,2)
             error('Length of gene_symbols width of expression_matrix do not match!');
         end
         clear('expression_matrix', 'gene_symbols');
