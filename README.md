@@ -55,7 +55,7 @@ All datasets (atlases, ABA data, GCEA datasets) are stored on an [OSF server](ht
 sources_table = abannotate_get_sources;
 ```
 
-*ABAnnotate* automatically downloads selected datasets to the two folders `\atlas` (parcellation volumes and parcel-wise ABA data) and `\datasets` (GCEA datasets).   
+*ABAnnotate* automatically downloads selected datasets to the two folders `\atlas` (parcellation volumes and parcel-wise ABA data) and `\datasets` (GCEA datasets). You can also download the data manually from [OSF](https://osf.io/nvcmf/) and save it in the respective folders.
 
 ### <a name="datasets_atlas"></a>Atlases & ABA data
 

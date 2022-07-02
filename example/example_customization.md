@@ -8,6 +8,8 @@ opt.n_nulls = 1000;
 opt.phenotype = 'neuroquery_pain.nii';
 opt.dir_result = 'gcea';
 opt.GCEA.dataset = 'PsychEncode-cellTypesTPM-discrete';
+% pass 'opt.GCEA.verbose_cat = true' to print process for each category
+% opt.GCEA.verbose_cat = false
 
 cTable = ABAnnotate(opt);
 ```

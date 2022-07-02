@@ -1,6 +1,6 @@
 function [cTable, save_path] = generate_category_nulls(...
     dataset_mat, aba_mat, gcea_opt, phenotype_nulls_mat, ...
-    phenotype_data, save_result, verbose)
+    phenotype_data, save_result)
 %function [cTable, save_path] = generate_category_nulls(...
 %    dataset_mat, aba_mat, phenotype_nulls_mat, gcea_opt, ...
 %    phenotype_parc, save_result, verbose)
@@ -27,9 +27,7 @@ end
 if ~exist('save_result', 'var')
     save_result = true;
 end
-if ~exist('verbose', 'var')
-    verbose = true;
-end
+verbose = gcea_opt.verbose_cat;
 
 %--------------------------------------------------------------------------
 % get gene-expression data

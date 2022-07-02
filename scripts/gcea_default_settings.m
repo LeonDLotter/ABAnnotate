@@ -43,5 +43,8 @@ default_opt.p_tail = 'right';
 % significance threshold for categories (only for display)
 default_opt.p_thresh = 0.05; 
 
+% print gene counts for every single gene category
+default_opt.verbose_cat = false; 
+
 
 end

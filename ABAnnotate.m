@@ -91,7 +91,7 @@ switch atlas_type
         opt.atlas = fullfile(wd, 'atlas', atlas, sprintf('%s_atlas.nii', atlas));
         opt.aba_mat = fullfile(wd, 'atlas', atlas, sprintf('%s_expression.mat', atlas));
         load(opt.aba_mat, 'expression_matrix')
-        opt.n_rois = height(expression_matrix);
+        opt.n_rois = size(expression_matrix,1);
         clear('expression_matrix');
         fprintf('Setting atlas & ABA data to %s - %u parcels.\n', opt.atlas, opt.n_rois);
         
@@ -125,10 +125,10 @@ switch atlas_type
             error('Problems loading variables "expression_matrix" and "gene_symbols" from opt.aba_mat!');
         end
         % compare numbers
-        if opt.n_rois~=height(expression_matrix)
+        if opt.n_rois~=size(expression_matrix,1)
             error('Number of ROIs in atlas (%u) does not match number of values in expression matrix (%u)!', opt.n_rois, height(expression_matrix))
         end
-        if length(gene_symbols)~=width(expression_matrix)
+        if length(gene_symbols)~=size(expression_matrix,2)
             error('Length of gene_symbols width of expression_matrix do not match!');
         end
         clear('expression_matrix', 'gene_symbols');
@@ -187,8 +187,10 @@ if isfield(opt, 'phenotype_nulls')
     end
     % check if correct size
     phenotype_nulls_size = size(nullMaps);
-    if phenotype_nulls_size(1) ~= opt.n_rois
-        error('Null maps have wrong size, must be n_rois x n_nulls array!')
+    if phenotype_nulls_size(1)~=opt.n_rois || phenotype_nulls_size(2)<opt.n_nulls
+        error(['Provided null maps have wrong size [%u %u], ',...
+               'must be n_rois x n_nulls array [%u %u]!'], ...
+              phenotype_nulls_size(1), phenotype_nulls_size(2), opt.n_rois, opt.n_nulls)
     end
     
 % if not provided, load or generate new phenotype nulls
@@ -281,7 +283,7 @@ if ~isfield(opt.GCEA, 'category_nulls')
                             opt.GCEA, ...
                             opt.phenotype_nulls, ...
                             [], ...
-                            true, true);  
+                            true);  
 else
     fprintf('Loading category null samples from %s\n', opt.GCEA.category_nulls);
     % check if correct dataset
