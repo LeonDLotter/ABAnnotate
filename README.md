@@ -14,9 +14,8 @@
 
 :exclamation:  
 This repository is no longer maintained because ABAnnotate has been succeeded by the Python-based tool [NiSpace](https://github.com/leondlotter/nispace).  
-The code and functionality described below have been more or less completely translated, with many features being significantly improved.  
-I do not recommend to use ABAnnotate for new projects.  
-For a direct comparison in terms of functionality, see [this NiSpace example](https://nispace.readthedocs.io/en/latest/nb_introduction/xsea.html) in comparison to [this ABAnnotate example](example/example_pain.md).
+The code and functionality described below have been more or less completely translated, with many features being significantly improved. I do not recommend to use ABAnnotate for new projects.  
+For a direct comparison in terms of functionality, see [this NiSpace example](https://nispace.readthedocs.io/en/latest/nb_introduction/xsea.html) in comparison to [this ABAnnotate example](example/example_pain.md).  
 :exclamation: 
 
 ---
