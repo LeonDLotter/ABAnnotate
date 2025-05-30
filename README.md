@@ -10,6 +10,17 @@
 
 ---
 
+## DEPRICATION NOTICE
+
+:exclamation:  
+This repository is no longer maintained because ABAnnotate has been succeeded by the Python-based tool [NiSpace](https://github.com/leondlotter/nispace).  
+The code and functionality described below have been more or less completely translated, with many features being significantly improved. I do not recommend to use ABAnnotate for new projects.  
+:exclamation: 
+
+---
+---
+
+
 *ABAnnotate* is a Matlab-based toolbox to perform ensemble-based gene-category enrichment analysis (GCEA) on volumetric human neuroimaging data via brain-wide gene expression patterns derived from the Allen Human Brain Atlas (ABA). It applies a nonparametric method developed by [Fulcher et al. (2021)](https://doi.org/10.1038/s41467-021-22862-1) using spatial autocorrelation-corrected phenotype null maps for the estimation of gene-category null ensembles. *ABAnnotate* was adopted from [Fulcher et al.`s toolbox](https://github.com/benfulcher/GeneCategoryEnrichmentAnalysis) which was originally designed for annotation of imaging data to [GeneOntology](http://geneontology.org/) categories. The function to generate null models, along with some utility functions, were taken from the [JuSpace](https://github.com/juryxy/JuSpace) toolbox by [Dukart et al. (2021)](https://doi.org/10.1002/hbm.25244).
 
 *ABAnnotate* is under development. It works of the box but you may well encounter bugs when using it. Please feel free to report these by opening an issue or contacting me.
