@@ -1,7 +1,7 @@
 function cTable = estimate_pvals(null_scores, real_scores, tail, cTable)
 %function cTable = estimate_pvals(null_scores, real_scores, tail, cTable)
 %
-% Estimates p-values for each GO category from a given null distribution.
+% Estimates p-values for each gene category from a given null distribution.
 % Computes using both a permutation-based and fitted Gaussian approximation.
 %
 % INPUTS:
@@ -48,7 +48,7 @@ end
 [~, ~, ~, pValZCorr] = fdr_bh(pValZ);
 
 %--------------------------------------------------------------------------
-% Assign values to categories of GOTable:
+% Assign values to categories of cTable:
 %--------------------------------------------------------------------------
 cTable.pValZ = pValZ;
 cTable.pValZCorr = pValZCorr;

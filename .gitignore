@@ -54,3 +54,7 @@ octave-workspace
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# OS ------------------------------------------------------------------
+
+.DS_Store
